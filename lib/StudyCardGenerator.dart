@@ -22,6 +22,15 @@ class _StudyCardGeneratorState extends State<StudyCardGenerator> {
   final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
+  List<List<Color>>? answers = List.generate(
+    5,
+    (index) => [
+      Color.fromARGB(255, 244, 217, 204),
+      Color.fromARGB(255, 244, 217, 204),
+      Color.fromARGB(255, 244, 217, 204),
+      Color.fromARGB(255, 244, 217, 204),
+    ],
+  );
   dynamic response;
   File? image;
   PlatformFile? file;
@@ -170,14 +179,6 @@ class _StudyCardGeneratorState extends State<StudyCardGenerator> {
                 thumbDecoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(6),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Colors.black.withOpacity(.3),
-                  //     blurRadius: 4.0,
-                  //     spreadRadius: 1.0,
-                  //     offset: Offset(0.0, 2.0),
-                  //   ),
-                  // ],
                 ),
                 duration: Duration(milliseconds: 300),
                 curve: Curves.easeInToLinear,
@@ -185,10 +186,12 @@ class _StudyCardGeneratorState extends State<StudyCardGenerator> {
                   if (v == 1) {
                     setState(() {
                       isFlashCard = true;
+                      questions!.clear();
                     });
                   } else {
                     setState(() {
                       isFlashCard = false;
+                      flashcards!.clear();
                     });
                   }
                 },
@@ -233,16 +236,15 @@ keep the answers 3 lines maximum
 ''',
                                 )
                                 : Content.system(
-                                  '''You are a brilliant teacher and memory coach. Based on the uploaded notes or documents, generate 10 quiz questions. Quizzes should include a mix of MCQs, true/false, fill-in-the-blanks.
+                                  '''You are a brilliant teacher and memory coach. Based on the uploaded notes or documents, generate 5 mcq quiz questions
 
 Output Format:
-1. Topic Title:
-2. Quiz Questions:
-   - Q1: [Question]
-   - Type: [MCQ/TF/Short]
-   - Options (if applicable):
-   - Correct Answer:
-   - Explanation (optional)
+[
+ {
+    "question": "What is a 'chiaroscuro' effect in art",
+    "answers": ["Use of bright natural colors","Strong contrast between light and shadow","A blurry or indistinct image","A type of perspective"],
+    "correctAnswer": 1
+  }]
 
 ''',
                                 ),
@@ -258,12 +260,20 @@ Output Format:
                         ]),
                       ]);
                       setState(() {
+                        if (isFlashCard == true) {
+                          String istra =
+                              response.text.toString().split('json')[1];
+                          String hil = istra.substring(0, istra.length - 4);
+                          print(hil);
+                          flashcards = json.decode(hil);
+                        } else {
+                          String istra =
+                              response.text.toString().split('json')[1];
+                          String hil = istra.substring(0, istra.length - 4);
+                          print(hil);
+                          questions = json.decode(hil);
+                        }
                         isLoading = false;
-                        String istra =
-                            response.text.toString().split('json')[1];
-                        String hil = istra.substring(0, istra.length - 4);
-                        print(hil);
-                        flashcards = json.decode(hil);
                       });
                       print(response.text);
                     }
@@ -283,21 +293,24 @@ Output Format:
                         )
                         : response == null
                         ? Text('')
-                        : ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: flashcards!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: FlipCard(
-                                animationDuration: const Duration(seconds: 1),
-                                rotateSide: RotateSide.right,
-                                onTapFlipping:
-                                    true, //When enabled, the card will flip automatically when touched.
-                                axis: FlipAxis.horizontal,
-                                controller: controller,
-                                frontWidget: Center(
-                                  child: Container(
+                        : (isFlashCard == true && flashcards!.isNotEmpty)
+                        ? SizedBox(
+                          height: 340,
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: flashcards!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: FlipCard(
+                                  animationDuration: const Duration(seconds: 1),
+                                  rotateSide: RotateSide.right,
+                                  onTapFlipping:
+                                      true, //When enabled, the card will flip automatically when touched.
+                                  axis: FlipAxis.horizontal,
+                                  controller: controller,
+                                  frontWidget: Container(
                                     color: const Color.fromARGB(
                                       255,
                                       238,
@@ -335,9 +348,7 @@ Output Format:
                                       ),
                                     ),
                                   ),
-                                ),
-                                backWidget: Center(
-                                  child: Container(
+                                  backWidget: Container(
                                     color: const Color.fromARGB(
                                       255,
                                       238,
@@ -375,27 +386,84 @@ Output Format:
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                // : Card(
-                //   color: const Color.fromARGB(255, 238, 224, 218),
-                //   child: Padding(
-                //     padding: const EdgeInsets.symmetric(
-                //       horizontal: 15.0,
-                //       vertical: 10,
-                //     ),
-                //     child: Text(
-                //       response.text,
-                //       style: TextStyle(
-                //         fontSize: 14,
-                //         height: 2,
-                //         fontWeight: FontWeight.w500,
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                              );
+                            },
+                          ),
+                        )
+                        : (isFlashCard == false && questions!.isNotEmpty)
+                        ? SizedBox(
+                          height: 340,
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: questions!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                elevation: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        questions![index]["question"],
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      for (int i = 0; i <= 3; i++)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 10.0,
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              if (questions![index]["correctAnswer"] ==
+                                                  i) {
+                                                print("Correct");
+                                                setState(() {
+                                                  answers![index][i] = Color(
+                                                    0xffabff94,
+                                                  );
+                                                });
+                                              } else if (questions![index]["correctAnswer"] !=
+                                                  i) {
+                                                setState(() {
+                                                  answers![index][i] = Color(
+                                                    0xffff6061,
+                                                  );
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              color: answers![index][i],
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  10.0,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    questions![index]["answers"][i],
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                        : Text(""),
               ),
             ),
           ],
