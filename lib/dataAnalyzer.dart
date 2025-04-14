@@ -15,7 +15,7 @@ class DataAnalyzer extends StatefulWidget {
 
 class _DataAnalyzerState extends State<DataAnalyzer> {
   bool isLoading = false;
-  String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
+  String API_KEY = "YOUR_GEMINI_API_KEY";
   dynamic response;
   File? image;
   PlatformFile? file;
