@@ -14,7 +14,6 @@ class RecipeSuggester extends StatefulWidget {
 }
 
 class _RecipeSuggesterState extends State<RecipeSuggester> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;

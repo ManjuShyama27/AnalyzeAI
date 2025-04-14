@@ -14,7 +14,6 @@ class ImageStoryTeller extends StatefulWidget {
 }
 
 class _ImageStoryTellerState extends State<ImageStoryTeller> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
@@ -215,12 +214,9 @@ class _ImageStoryTellerState extends State<ImageStoryTeller> {
                         apiKey: API_KEY,
                         systemInstruction: Content.system(
                           '''You are a master storyteller. Look at the image and create a compelling story inspired by what you see. Include characters, setting, emotions, and a narrative arc. You can be imaginative — it's okay to create a fantasy or fictional story based on visual clues. Tailor the tone depending on the audience (e.g., kids, adults, dark, motivational, humorous).
-
-
  - Story Type:$typeVal 
  - Length: $lengthVal
  - Tone: $toneVal
-
 Output format:
 1. Title:
 2. Genre:
@@ -228,8 +224,6 @@ Output format:
 4. Moral / Message (optional):
 5. Characters Introduced:
 6. Possible Continuation (optional):
-
-
 ''',
                         ),
                       );

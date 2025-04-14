@@ -15,7 +15,6 @@ class ObjectIdentifier extends StatefulWidget {
 }
 
 class _ObjectIdentifierState extends State<ObjectIdentifier> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
@@ -164,8 +163,6 @@ class _ObjectIdentifierState extends State<ObjectIdentifier> {
                         apiKey: API_KEY,
                         systemInstruction: Content.system(
                           '''You are an expert visual recognition assistant. Analyze the following image and identify all visible objects with their names and categories. If possible, include descriptions, approximate sizes, and real-world use cases. Be specific and avoid vague terms.
-
-Image: [Insert image file or image URL]
 
 Output format:
 1. Object Name:

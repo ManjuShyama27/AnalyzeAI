@@ -14,7 +14,6 @@ class DataAnalyzer extends StatefulWidget {
 }
 
 class _DataAnalyzerState extends State<DataAnalyzer> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
@@ -159,7 +158,6 @@ class _DataAnalyzerState extends State<DataAnalyzer> {
                         apiKey: API_KEY,
                         systemInstruction: Content.system(
                           '''You are a professional data analyst. Analyze the uploaded file and provide a detailed report with key insights, trends, and any anomalies. Use charts and plain language to explain findings.
-
 Output format:
 1. File Type:
 2. Summary of Data:
@@ -167,7 +165,6 @@ Output format:
 4. Anomalies / Warnings:
 5. Suggested Next Steps:
 6. Additional Notes:
-
 ''',
                         ),
                       );

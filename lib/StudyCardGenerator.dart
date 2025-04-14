@@ -19,7 +19,6 @@ class StudyCardGenerator extends StatefulWidget {
 }
 
 class _StudyCardGeneratorState extends State<StudyCardGenerator> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   List<List<Color>>? answers = List.generate(
@@ -229,7 +228,6 @@ class _StudyCardGeneratorState extends State<StudyCardGenerator> {
                             isFlashCard == true
                                 ? Content.system(
                                   '''You are a brilliant teacher and memory coach. Based on the uploaded notes or documents, generate 3 smart study flashcards that help with concept retention. Flashcards should cover key definitions, formulas, concepts, and important points.
-
 Output Format:
 [["Question1","Answer1"],["Question1","Answer1"],["Question1","Answer1"]]
 keep the answers 3 lines maximum
@@ -237,7 +235,6 @@ keep the answers 3 lines maximum
                                 )
                                 : Content.system(
                                   '''You are a brilliant teacher and memory coach. Based on the uploaded notes or documents, generate 5 mcq quiz questions
-
 Output Format:
 [
  {

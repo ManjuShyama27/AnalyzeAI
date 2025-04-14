@@ -14,7 +14,6 @@ class BookSummarizer extends StatefulWidget {
 }
 
 class _BookSummarizerState extends State<BookSummarizer> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
@@ -159,9 +158,6 @@ class _BookSummarizerState extends State<BookSummarizer> {
                         apiKey: API_KEY,
                         systemInstruction: Content.system(
                           '''You are a professional book summarizer. Summarize the following book content clearly and concisely, preserving the main ideas, themes, and key takeaways. Maintain the tone and style of the book. If it's fiction, highlight the plot, characters, and emotional arc. If it's non-fiction, focus on the core arguments, lessons, and practical insights.
-
-Text: """[Insert book content here]"""
-
 Output format:
 1. Title:
 2. Author:

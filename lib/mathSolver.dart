@@ -14,7 +14,6 @@ class MathProblemSolver extends StatefulWidget {
 }
 
 class _MathProblemSolverState extends State<MathProblemSolver> {
-  final TextEditingController prompt = TextEditingController();
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
