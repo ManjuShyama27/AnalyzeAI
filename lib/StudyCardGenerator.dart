@@ -20,7 +20,7 @@ class StudyCardGenerator extends StatefulWidget {
 
 class _StudyCardGeneratorState extends State<StudyCardGenerator> {
   bool isLoading = false;
-  String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
+  String API_KEY = "YOUR_GEMINI_API_KEY";
   List<List<Color>>? answers = List.generate(
     5,
     (index) => [
