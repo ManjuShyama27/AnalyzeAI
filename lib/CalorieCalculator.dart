@@ -7,18 +7,19 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
-class ObjectIdentifier extends StatefulWidget {
-  const ObjectIdentifier({super.key});
+class CalorieCalculator extends StatefulWidget {
+  const CalorieCalculator({super.key});
 
   @override
-  State<ObjectIdentifier> createState() => _ObjectIdentifierState();
+  State<CalorieCalculator> createState() => _CalorieCalculatorState();
 }
 
-class _ObjectIdentifierState extends State<ObjectIdentifier> {
+class _CalorieCalculatorState extends State<CalorieCalculator> {
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
   File? image;
+  PlatformFile? file;
 
   void picImage() async {
     final ImagePicker picker = ImagePicker();
@@ -42,7 +43,7 @@ class _ObjectIdentifierState extends State<ObjectIdentifier> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Object Identifier",
+          "Calorie Calculator",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
@@ -57,7 +58,7 @@ class _ObjectIdentifierState extends State<ObjectIdentifier> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Upload an image to identify objects,animals,plants,landmarks or other elements in this picture.',
+              'Upload an image of a dish to calculate its calories,based on the ingredients of the dish.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.blueGrey,
@@ -139,11 +140,11 @@ class _ObjectIdentifierState extends State<ObjectIdentifier> {
                     foregroundColor: Colors.white,
                   ),
                   label: Text(
-                    'Identify Object',
+                    'Calculate Calorie',
                     style: TextStyle(fontSize: 20),
                   ),
                   icon: Icon(
-                    Icons.remove_red_eye,
+                    Icons.food_bank_rounded,
                     color: Colors.white,
                     size: 23,
                   ),
@@ -161,15 +162,16 @@ class _ObjectIdentifierState extends State<ObjectIdentifier> {
                         model: 'gemini-1.5-flash',
                         apiKey: API_KEY,
                         systemInstruction: Content.system(
-                          '''You are an expert visual recognition assistant. Analyze the following image and identify all visible objects with their names and categories. If possible, include descriptions, approximate sizes, and real-world use cases. Be specific and avoid vague terms.
+                          '''You are a nutrition expert. Based on the image of the food dish, identify the dish and estimate its total calorie count.
 
-Output format:
-1. Object Name:
-2. Category (e.g., furniture, electronic, animal, etc.):
-3. Description:
-4. Confidence Score:
-5. Possible Uses (optional):
-6. Fun Fact (optional, for user engagement):
+Please include:
+
+Dish Name
+Estimated Total Calories
+Breakdown of Ingredients (if possible)
+Calorie Breakdown per Ingredient
+Confidence Level (in %)
+Be as accurate as possible based on visual cues, and specify if you're unsure or making assumptions
 
 ''',
                         ),

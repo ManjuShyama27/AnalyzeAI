@@ -17,11 +17,14 @@ class _BookSummarizerState extends State<BookSummarizer> {
   bool isLoading = false;
   String API_KEY = "AIzaSyCsbYA-HcMLJCxoOF49QccvXUx6o8eXMJk";
   dynamic response;
-  File? image;
   PlatformFile? file;
 
   void pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
 
     if (result != null) {
       setState(() {

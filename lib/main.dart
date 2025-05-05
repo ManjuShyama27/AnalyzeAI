@@ -1,4 +1,5 @@
 import 'package:analyzeai/AudioVideoMinutes.dart';
+import 'package:analyzeai/CalorieCalculator.dart';
 import 'package:analyzeai/ImageStoryteller.dart';
 import 'package:analyzeai/ObjectIdentifier.dart';
 import 'package:analyzeai/RecipeSuggester.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/imageStoryTeller': (context) => ImageStoryTeller(),
         '/audioVideoMinutes': (context) => AudioVideoMinutes(),
         '/dataAnalyzer': (context) => DataAnalyzer(),
+        '/calorieCalculator': (context) => CalorieCalculator(),
       },
     );
   }

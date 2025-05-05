@@ -58,6 +58,12 @@ class _DashboardState extends State<Dashboard> {
     //   Icons.table_chart,
     //   '/dataAnalyzer',
     // ],
+    [
+      'Calorie Calculator',
+      'Calculate calories from food image',
+      Icons.food_bank_outlined,
+      '/calorieCalculator',
+    ],
   ];
   @override
   Widget build(BuildContext context) {
